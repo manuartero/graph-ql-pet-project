@@ -1,17 +1,40 @@
 import Fastify from "fastify";
-import { graphql, buildSchema } from "graphql";
+import { buildSchema, graphql } from "graphql";
+import { root } from "resolvers";
 
 const fastify = Fastify();
 
 const schema = buildSchema(`
+  type Class {
+    name: String!
+    icon: String
+    spells: [String!]!
+  }
+
+  type Damage {
+    dice: String!
+    damageType: String!
+  }
+
+  type Spell {
+    id: String!
+    name: String!
+    url: String
+    icon: String
+    level: Int!
+    upcast: Boolean
+    action: String
+    duration: String
+    range: String
+    type: String
+    damage: [Damage!]
+  }
+
   type Query {
-    hello: String
+    classes: [Class!]!
+    classSpells(className: String!): [Spell!]!
   }
 `);
-
-const root = {
-  hello: () => "world",
-};
 
 fastify.post("/graphql", async (req, reply) => {
   const { query, variables, operationName } = req.body as {

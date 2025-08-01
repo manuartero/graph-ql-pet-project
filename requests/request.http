@@ -1,3 +1,39 @@
-curl -X POST http://localhost:4000/graphql \
-  -H "Content-Type: application/json" \
-  -d '{"query":"{ hello }"}'
+# Get all available classes with their basic info
+POST http://localhost:4000/graphql
+Content-Type: application/json
+
+{
+  "query": "{ classes { name icon spells } }"
+}
+
+###
+
+# Get full spell details for a specific class
+POST http://localhost:4000/graphql
+Content-Type: application/json
+
+{
+  "query": "{ classSpells(className: \"wizard\") { id name level icon url action range type } }"
+}
+
+###
+
+# Get spells for a different class
+POST http://localhost:4000/graphql
+Content-Type: application/json
+
+{
+  "query": "{ classSpells(className: \"cleric\") { id name } }"
+}
+
+###
+
+# Combined query - get classes and wizard spells in one request
+POST http://localhost:4000/graphql
+Content-Type: application/json
+
+{
+  "query": "{ classes { name } classSpells(className: \"wizard\") { name level } }"
+}
+
+###
