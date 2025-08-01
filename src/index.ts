@@ -1,5 +1,4 @@
-function run() {
-  console.log("Running the application...");
-}
+import { startServer } from "./server.js";
 
-run();
+console.log("Running the application...");
+startServer();

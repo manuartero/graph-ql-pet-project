@@ -2,16 +2,20 @@
   "name": "graph-pet-project",
   "version": "0.1.0",
   "description": "GraphQL + Apollo pet project",
+  "type": "module",
   "main": "index.js",
   "keywords": [
     "node",
     "graphql",
     "apollo"
   ],
-  "author": "manutero.developer@gmail.com",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "author": "Manuel Artero <manutero.developer@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node src/index.ts",
+    "dev": "tsx src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
     "prestart": "npm run build",
@@ -19,7 +23,11 @@
   },
   "devDependencies": {
     "@types/node": "24.1.0",
-    "ts-node": "10.9.2",
+    "tsx": "4.20.3",
     "typescript": "5.9.2"
+  },
+  "dependencies": {
+    "fastify": "4.28.1",
+    "graphql": "16.11.0"
   }
 }

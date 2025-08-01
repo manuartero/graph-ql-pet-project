@@ -1,31 +1,25 @@
 {
-  // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
-    // File Layout
-    "rootDir": "./src",
-    "outDir": "./dist",
-    // Environment Settings
-    // See also https://aka.ms/tsconfig/module
-    "module": "nodenext",
-    "target": "esnext",
-    "types": [],
-    // Stricter Typechecking Options
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
-    // Style Options
-    // "noImplicitReturns": true,
-    // "noImplicitOverride": true,
-    // "noUnusedLocals": true,
-    // "noUnusedParameters": true,
-    // "noFallthroughCasesInSwitch": true,
-    // "noPropertyAccessFromIndexSignature": true,
-    // Recommended Options
-    "strict": true,
-    "jsx": "react-jsx",
-    "verbatimModuleSyntax": true,
-    "isolatedModules": true,
-    "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force",
-    "skipLibCheck": true,
+    /* type checking */
+    "strict": true, // turn on strict mode family
+    "noFallthroughCasesInSwitch": true, // every switch case should break or return
+    /* modules */
+    "baseUrl": "src", // base path for imports
+    "outDir": "dist",
+    "module": "ESNext", // ESModules & allows «import.meta»
+    "moduleResolution": "Node", // recommended: ts mimic node resolution
+    "resolveJsonModule": true, // allows .json files
+    /* language */
+    "target": "ES2020",
+    "lib": [],
+    /* js support */
+    "allowJs": true, // allows .js files
+    /* Interop Constraints */
+    "esModuleInterop": true, // recommended: compatibility with libraries using CommonJS
+    "allowSyntheticDefaultImports": true, // allows «import Foo from 'foo'»
+    "forceConsistentCasingInFileNames": true, // checks for case sensitivity file names
+    "isolatedModules": true, // force all files to import/export (no global scripts)
+    /* completeness */
+    "skipLibCheck": true, // skip checking node_modules/*.d.ts files
   }
 }
