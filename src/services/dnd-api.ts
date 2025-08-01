@@ -1,4 +1,4 @@
-import type { HeroClassName } from "../dnd-domain";
+import type { HeroClassName, Spell } from "../dnd-domain";
 
 const BASE_URL = "https://inesdi2025-resources-p2.fly.dev/v1";
 
@@ -19,6 +19,8 @@ const heroImageUrl = (className: HeroClassName) =>
 const heroClassSpellsUrl = (className: HeroClassName) =>
   `${BASE_URL}/classes/${className}/spells`;
 const spellUrl = (spellId: string) => `${BASE_URL}/spells/${spellId}`;
+const spellIconUrl = (spellId: string) =>
+  `${BASE_URL}/assets/spells/${spellId}`;
 
 export async function fetchHeroClasses() {
   const response = await fetch(heroClassUrl());
@@ -51,6 +53,7 @@ export async function fetchHeroClassImage(className: HeroClassName) {
       `Failed to fetch image for class ${className}: ${response.statusText}`
     );
   }
+
   const arrayBuffer = await response.arrayBuffer();
   const base64 = Buffer.from(arrayBuffer).toString("base64");
   return `data:image/png;base64,${base64}`;
@@ -63,6 +66,7 @@ export async function fetchHeroClassSpells(className: HeroClassName) {
       `Failed to fetch spells for class ${className}: ${response.statusText}`
     );
   }
+
   const spellIds = (await response.json()) as string[];
   if (!Array.isArray(spellIds)) {
     throw new Error(
@@ -75,26 +79,14 @@ export async function fetchHeroClassSpells(className: HeroClassName) {
 export async function fetchSpell(spellId: string) {
   const response = await fetch(spellUrl(spellId));
   if (!response.ok) {
-    // If spell not found, return null instead of throwing
     if (response.status === 404) {
       console.warn(`Spell ${spellId} not found, skipping...`);
       return null;
     }
     throw new Error(`Failed to fetch spell ${spellId}: ${response.statusText}`);
   }
-  const spell = (await response.json()) as {
-    id: string;
-    name: string;
-    url?: string;
-    icon?: string;
-    level: number;
-    upcast?: boolean;
-    action?: string;
-    duration?: string;
-    range?: string;
-    type?: string;
-    damage?: Array<{ dice: string; damageType: string }>;
-  };
+
+  const spell = (await response.json()) as Spell;
   if (!spell || !spell.id) {
     throw new Error("Unexpected response format for spell");
   }
@@ -102,7 +94,7 @@ export async function fetchSpell(spellId: string) {
 }
 
 export async function fetchSpellIcon(spellId: string) {
-  const response = await fetch(`${BASE_URL}/assets/spells/${spellId}`);
+  const response = await fetch(spellIconUrl(spellId));
   if (!response.ok) {
     throw new Error(
       `Failed to fetch icon for spell ${spellId}: ${response.statusText}`

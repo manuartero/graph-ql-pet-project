@@ -8,7 +8,7 @@ const schema = buildSchema(`
   type Class {
     name: String!
     icon: String
-    spells: [String!]!
+    spells: [Spell!]!
   }
 
   type Damage {
@@ -31,8 +31,23 @@ const schema = buildSchema(`
   }
 
   type Query {
+    # Get all classes with their spells resolved
     classes: [Class!]!
+
+    # Get a specific class by name
+    class(name: String!): Class
+
+    # Get spells for a specific class (same as before for compatibility)
     classSpells(className: String!): [Spell!]!
+
+    # Get a specific spell by ID
+    spell(id: String!): Spell
+
+    # Search spells by level
+    spellsByLevel(level: Int!): [Spell!]!
+
+    # Get all spells (with optional filtering)
+    spells(level: Int, className: String, limit: Int): [Spell!]!
   }
 `);
 

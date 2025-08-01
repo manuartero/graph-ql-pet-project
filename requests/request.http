@@ -1,39 +1,69 @@
-# Get all available classes with their basic info
+# 1. Get all classes with their spells fully resolved
 POST http://localhost:4000/graphql
 Content-Type: application/json
 
 {
-  "query": "{ classes { name icon spells } }"
+  "query": "{ classes { name icon spells { id name level action range } } }"
 }
 
 ###
 
-# Get full spell details for a specific class
+# 2. Get a specific class by name
 POST http://localhost:4000/graphql
 Content-Type: application/json
 
 {
-  "query": "{ classSpells(className: \"wizard\") { id name level icon url action range type } }"
+  "query": "{ class(name: \"wizard\") { name spells { id name level type damage { dice damageType } } } }"
 }
 
 ###
 
-# Get spells for a different class
+# 3. Get a specific spell by ID
 POST http://localhost:4000/graphql
 Content-Type: application/json
 
 {
-  "query": "{ classSpells(className: \"cleric\") { id name } }"
+  "query": "{ spell(id: \"fireball\") { id name level action range type damage { dice damageType } url } }"
 }
 
 ###
 
-# Combined query - get classes and wizard spells in one request
+# 4. Get all level 3 spells
 POST http://localhost:4000/graphql
 Content-Type: application/json
 
 {
-  "query": "{ classes { name } classSpells(className: \"wizard\") { name level } }"
+  "query": "{ spellsByLevel(level: 3) { id name action range type damage { dice damageType } } }"
+}
+
+###
+
+# 5. Get all spells (with optional filtering)
+POST http://localhost:4000/graphql
+Content-Type: application/json
+
+{
+  "query": "{ spells(level: 1) { id name action range } }"
+}
+
+###
+
+# 6. Get level 2 spells for wizards only
+POST http://localhost:4000/graphql
+Content-Type: application/json
+
+{
+  "query": "{ spells(level: 2, className: \"wizard\") { id name action type } }"
+}
+
+###
+
+# 7. Simple class names query
+POST http://localhost:4000/graphql
+Content-Type: application/json
+
+{
+  "query": "{ classes { name } }"
 }
 
 ###
