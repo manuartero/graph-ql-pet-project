@@ -1,6 +1,6 @@
 import Fastify from "fastify";
 import { buildSchema, graphql } from "graphql";
-import { root } from "resolvers";
+import { root } from "./resolvers.js";
 
 const fastify = Fastify();
 
@@ -70,7 +70,7 @@ fastify.post("/graphql", async (req, reply) => {
 });
 
 export async function startServer() {
-  fastify.listen({ port: 4000 }, () => {
+  fastify.listen({ port: 4000, host: '0.0.0.0' }, () => {
     console.log("🚀 Server running at http://localhost:4000/graphql");
   });
 }
