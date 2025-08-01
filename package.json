@@ -1,0 +1,16 @@
+{
+  "name": "graph-pet-project",
+  "version": "0.1.0",
+  "description": "GraphQL + Apollo pet project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node",
+    "graphql",
+    "apollo"
+  ],
+  "author": "manutero.developer@gmail.com",
+  "license": "MIT"
+}
