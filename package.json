@@ -1,13 +1,16 @@
 {
-  "name": "graph-pet-project",
+  "name": "graph-ql-pet-project",
   "version": "0.1.0",
-  "description": "GraphQL + Apollo pet project",
+  "description": "graphQL + fastify + mercurius pet project",
   "type": "module",
   "main": "index.js",
   "keywords": [
     "node",
+    "typescript",
     "graphql",
-    "apollo"
+    "fastify",
+    "mercurius",
+    "pet-project"
   ],
   "engines": {
     "node": ">=22.18.0"
