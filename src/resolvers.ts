@@ -37,10 +37,9 @@ async function getSpellWithIcon(spellId: string) {
   }
 }
 
-async function getClassWithSpells(name: string, icon: string) {
-  const spellIds = await fetchHeroClassSpells(name as HeroClassName);
-  const spellPromises = spellIds.map(getSpellWithIcon);
-  const spells = await Promise.all(spellPromises);
+async function getClassWithSpells(name: HeroClassName, icon: string) {
+  const spellIds = await fetchHeroClassSpells(name);
+  const spells = await Promise.all(spellIds.map(getSpellWithIcon));
 
   return {
     name,
@@ -52,25 +51,28 @@ async function getClassWithSpells(name: string, icon: string) {
 export const root = {
   classes: async () => {
     const classesWithIcons = await fetchHeroClasses();
-    const classPromises = Object.entries(classesWithIcons).map(
-      async ([name, icon]) => getClassWithSpells(name, icon)
+    const classEntries = Object.entries(classesWithIcons);
+
+    return await Promise.all(
+      classEntries.map(([name, icon]) =>
+        getClassWithSpells(name as HeroClassName, icon)
+      )
     );
-    return await Promise.all(classPromises);
   },
 
   class: async ({ name }: { name: HeroClassName }) => {
     const classesWithIcons = await fetchHeroClasses();
     const icon = classesWithIcons[name];
-
-    if (!icon) return null;
+    if (!icon) {
+      return null;
+    }
 
     return await getClassWithSpells(name, icon);
   },
 
   classSpells: async ({ className }: { className: HeroClassName }) => {
     const spellIds = await fetchHeroClassSpells(className);
-    const spellPromises = spellIds.map(getSpellWithIcon);
-    const spells = await Promise.all(spellPromises);
+    const spells = await Promise.all(spellIds.map(getSpellWithIcon));
     return spells.filter((spell) => spell !== null);
   },
 
